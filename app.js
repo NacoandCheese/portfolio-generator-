@@ -1,5 +1,7 @@
 // const profileDataArgs = process.slice(2);
 
+const inquirer = require("inquirer")
+
 // const printProfileData = profileDataArr => {
 //     // This...
 //     for (let i = 0; i < profileDataArr.length; i += 1) {
@@ -28,17 +30,80 @@
 
 
 //Inquirer can recieve a question object with properties like "type, name, message".
-const inquirer = require('inquirer');
-
-inquirer
-    .prompt([
+//Prompt user function so that it can be invoked on demand within the flow of the application.
+const promptUser = () => {
+    return inquirer.prompt([
         {
             type: 'input',
             name: 'name',
             message: 'What is your name?'
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: 'Enter your GitHub Username'
+        },
+        {
+            type: 'input',
+            name: 'about',
+            message: 'Provide some information about yourself:'
         }
-    ])
-    .then(answers => console.log(answers));
+    ]);
+};
+
+
+
+
+const prompProject = () => {
+    console.log (`
+    =================
+    Add a New Project
+    =================
+    `);
+    return inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'What is the name of your project?'
+        },
+        {
+            type: 'input',
+            name: 'description',
+            message: 'Provide a description of the project (Required)'
+        },
+        {
+            type: 'checkbox',
+            name: 'languages',
+            message: 'What did you build this project with? (Check all that apply)',
+            choices: ['JavaScript', 'HTML', 'CSS', 'ES6', 'jQuery', 'Bootstrap', 'Node']
+        },
+        {
+            type: 'input',
+            name: 'link',
+            message: 'Enter the GitHub link to your project. (Required)'
+        },
+        {
+            //confirm 'type' question is a Boolean that can recieve Yes or No (true or false) answer. 
+            type: 'confirm',
+            name: 'feature',
+            message: 'Would you like to feature this project?',
+            default: false
+        },
+        {
+            type: 'confirm',
+            name: 'confrimAddProject',
+            message: 'Would you like to enter another project?',
+            default: false
+        }
+    ]);
+};
+ 
+promptUser()
+    .then(answers => console.log(answers))
+    .then(promptProject)
+    .then(projectAnswers => console.log(projectAnswers));
+
+
 // // the require statment is a built in function thats globally available in Node.js. Allows app.js to access the fs modules functions through the fs assignment
 // const fs = require('fs');
 // //This statement the object in the module.exports assignment will be reassigned to the generatePage variable in the app.js
