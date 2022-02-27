@@ -65,6 +65,7 @@ const promptProject = portfolioData => {
     =================
     `);
     return inquirer.prompt([
+        
         {
             type: 'input',
             name: 'name',
@@ -99,14 +100,23 @@ const promptProject = portfolioData => {
             message: 'Would you like to enter another project?',
             default: false
         }
-    ]);
+    ])
+    .then(projectData => {
+        portfolioData.projects.push(projectData);
+        if (projectData.confirmAddProject) {
+            return promptProject(portfolioData);
+        } else {
+            return portfolioData;
+        }
+    });
 };
  
 //Chains the function call using .then() to control the sequence of apps flow.
 promptUser()
-    .then(answers => console.log(answers))
     .then(promptProject)
-    .then(projectAnswers => console.log(projectAnswers));
+    .then(portfolioData => {
+        console.log(portfolioData);
+    });
 
 
 // // the require statment is a built in function thats globally available in Node.js. Allows app.js to access the fs modules functions through the fs assignment
