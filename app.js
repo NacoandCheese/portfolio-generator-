@@ -54,7 +54,11 @@ const promptUser = () => {
 
 
 
-const prompProject = () => {
+const promptProject = portfolioData => {
+    // If theres no 'projects' array property, create one.
+    if (!portfolioData.projects) {
+    portfolioData.projects = [];
+    }
     console.log (`
     =================
     Add a New Project
@@ -98,6 +102,7 @@ const prompProject = () => {
     ]);
 };
  
+//Chains the function call using .then() to control the sequence of apps flow.
 promptUser()
     .then(answers => console.log(answers))
     .then(promptProject)
